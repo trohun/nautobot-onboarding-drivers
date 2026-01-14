@@ -3,61 +3,61 @@ sync_devices:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0]['name']"
+        jpath: "[0].name"
   serial:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0]['serial']"
+        jpath: "[0].serial"
   device_type:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0]['software_version']"
+        jpath: "[0].software_version"
   manufacturer:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0]['software_version']"
+        jpath: "[0].software_version"
   platform:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0]['software_version']"
+        jpath: "[0].software_version"
   mgmt_interface:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        jpath: "[76]['vlan_name']"  # 'it-management' from your output; adjust index if order changes
+        jpath: "[76].vlan_name"
   mask_length:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        jpath: "[76]['subnet_mask']"  # Extract mask, then use post_processor to convert to length if needed
+        jpath: "[76].subnet_mask"
 
 sync_network_data:
   interfaces:
     commands:
       - command: "show interfaces brief"
         parser: "textfsm"
-        jpath: "[*]['interface']"
+        jpath: "[*].interface"
   ip_addresses:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        jpath: "[*]['ip_address']"
+        jpath: "[*].ip_address"
   prefixes:
     commands:
       - command: "show ip route"
         parser: "textfsm"
-        jpath: "[*]['prefix']"
+        jpath: "[*].prefix"
   vlans:
     commands:
       - command: "show vlans"
         parser: "textfsm"
-        jpath: "[*]['vlan_name']"
+        jpath: "[*].vlan_id"
   vrf:
     commands:
       - command: "show vrf"
         parser: "textfsm"
-        jpath: "[*]['vlan_name']"
+        jpath: "[*].vrf_name"
