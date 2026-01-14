@@ -3,61 +3,61 @@ sync_devices:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0].HOST_NAME"  # From hp_procurve_show_system template
+        jpath: "[0].NAME"
   serial:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0].SERIAL_NUMBER"  # From hp_procurve_show_system template
+        jpath: "[0].SERIAL"
   device_type:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0].SYSTEM_TYPE"  # Maps to model/device type; adjust if needed
+        jpath: "[0].SOFTWARE_VERSION"
   manufacturer:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0].SYSTEM_TYPE"  # Assume "HP/Aruba" from system type; or hardcode if needed
+        jpath: "[0].SOFTWARE_VERSION"  # Or hardcode post_processor to return "Aruba"
   platform:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0].SYSTEM_TYPE"  # Use for platform slug
+        jpath: "[0].SOFTWARE_VERSION"
   mgmt_interface:
     commands:
-      - command: "show interfaces"
+      - command: "show ip"
         parser: "textfsm"
-        jpath: "[0].INTERFACE"  # From hp_procurve_show_interface template; assume "mgmt"
+        jpath: "[0].INTERFACE"
   mask_length:
     commands:
-      - command: "show interfaces"
+      - command: "show ip"
         parser: "textfsm"
-        jpath: "[0].MASK"  # Extract mask length from IP/mask
+        jpath: "[0].MASK"
 
 sync_network_data:
   interfaces:
     commands:
       - command: "show interfaces brief"
         parser: "textfsm"
-        jpath: "[*].interfaces"  # From hp_procurve_show_interfaces_brief
+        jpath: "[*].INTERFACE"
   ip_addresses:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        jpath: "[*].IP_ADDRESS"  # From hp_procurve_show_ip
+        jpath: "[*].IP_ADDRESS"
   prefixes:
     commands:
       - command: "show ip route"
         parser: "textfsm"
-        jpath: "[*].prefixes"  # From hp_procurve_show_ip_route
+        jpath: "[*].PREFIX"
   vlans:
     commands:
       - command: "show vlans"
         parser: "textfsm"
-        jpath: "[*].vlans"  # From hp_procurve_show_vlans
+        jpath: "[*].VLAN_ID"
   vrf:
     commands:
       - command: "show vrf"
         parser: "textfsm"
-        jpath: "[*].vrf"  # From hp_procurve_show_vrf; skip if not applicable
+        jpath: "[*].VRF_NAME"
