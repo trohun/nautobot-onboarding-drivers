@@ -19,7 +19,6 @@ sync_devices:
       - command: "show system"
         parser: "textfsm"
         jpath: "[0].software_version"
-        post_processor: "{{ 'Aruba' }}"  # Hardcode as Jinja2 expression
   platform:
     commands:
       - command: "show system"
@@ -29,14 +28,12 @@ sync_devices:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        jpath: "raw"
-        post_processor: "{{ obj | selectattr('ip_address', 'equalto', '10.228.0.18') | first.vlan_name | default('it-management') }}"  # Jinja2 filter by IP, default if not found
+        jpath: "[76].vlan_name"
   mask_length:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        jpath: "raw"
-        post_processor: "{{ obj | selectattr('ip_address', 'equalto', '10.228.0.18') | first.subnet_mask | default('255.255.255.0') }}"  # Jinja2 filter by IP, default if not found
+        jpath: "[76].subnet_mask"
 
 sync_network_data:
   interfaces:
