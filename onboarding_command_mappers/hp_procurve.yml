@@ -19,6 +19,7 @@ sync_devices:
       - command: "show system"
         parser: "textfsm"
         jpath: "[0].software_version"
+        post_processor: "{{ return 'Aruba' }}"
   platform:
     commands:
       - command: "show system"
@@ -28,12 +29,14 @@ sync_devices:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        jpath: "[76].vlan_name"
+        jpath: "raw"
+        post_processor: "{{ for entry in obj if entry.ip_address == '10.228.0.18' }}{{ return entry.vlan_name }}{{ endfor }}"
   mask_length:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        jpath: "[76].subnet_mask"
+        jpath: "raw"
+        post_processor: "{{ for entry in obj if entry.ip_address == '10.228.0.18' }}{{ return entry.subnet_mask }}{{ endfor }}"
 
 sync_network_data:
   interfaces:
@@ -55,9 +58,9 @@ sync_network_data:
     commands:
       - command: "show vlans"
         parser: "textfsm"
-        jpath: "[*].vlan_id"
+        jpath: "[*].vlan_name"
   vrf:
     commands:
       - command: "show vrf"
         parser: "textfsm"
-        jpath: "[*].vrf_name"
+        jpath: "[*].vlan_name"
