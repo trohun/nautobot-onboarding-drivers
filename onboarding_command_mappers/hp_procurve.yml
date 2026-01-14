@@ -1,0 +1,53 @@
+sync_devices:
+  hostname:
+    commands:
+      - command: "show system"
+        parser: "textfsm"
+        jpath: "[*].hostname"
+  serial:
+    commands:
+      - command: "show system"
+        parser: "textfsm"
+        jpath: "[*].serial_number"
+  device_type:
+    commands:
+      - command: "show system"
+        parser: "textfsm"
+        jpath: "[*].model"
+  mgmt_interface:
+    commands:
+      - command: "show running-config | include interface"
+        parser: "textfsm"
+        jpath: "[*].management_interface"
+  mask_length:
+    commands:
+      - command: "show running-config | include ip address"
+        parser: "textfsm"
+        jpath: "[*].mask_length"
+
+sync_network_data:
+  interfaces:
+    commands:
+      - command: "show interfaces brief"
+        parser: "textfsm"
+        jpath: "[*].interfaces"
+  ip_addresses:
+    commands:
+      - command: "show ip"
+        parser: "textfsm"
+        jpath: "[*].ip_addresses"
+  prefixes:
+    commands:
+      - command: "show ip route"
+        parser: "textfsm"
+        jpath: "[*].prefixes"
+  vlans:
+    commands:
+      - command: "show vlans"
+        parser: "textfsm"
+        jpath: "[*].vlans"
+  vrf:
+    commands:
+      - command: "show vrf"
+        parser: "textfsm"
+        jpath: "[*].vrf"
