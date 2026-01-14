@@ -3,61 +3,61 @@ sync_devices:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0].NAME"
+        jpath: "[0].name"
   serial:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0].SERIAL"
+        jpath: "[0].serial"
   device_type:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0].SOFTWARE_VERSION"
+        jpath: "[0].software_version"
   manufacturer:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0].SOFTWARE_VERSION"  # Or use post_processor: "return 'Aruba'"
+        jpath: "[0].software_version"  # Or post_processor to return "Aruba"
   platform:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0].SOFTWARE_VERSION"
+        jpath: "[0].software_version"
   mgmt_interface:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        jpath: "[0].INTERFACE"
+        jpath: "[3].vlan_name"  # Targets 'MANAGEMENT' VLAN interface
   mask_length:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        jpath: "[0].MASK"
+        jpath: "[3].subnet_mask"  # Targets 'MANAGEMENT' mask
 
 sync_network_data:
   interfaces:
     commands:
       - command: "show interfaces brief"
         parser: "textfsm"
-        jpath: "[*].INTERFACE"
+        jpath: "[*].interface"
   ip_addresses:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        jpath: "[*].IP_ADDRESS"
+        jpath: "[*].ip_address"
   prefixes:
     commands:
       - command: "show ip route"
         parser: "textfsm"
-        jpath: "[*].PREFIX"
+        jpath: "[*].prefix"
   vlans:
     commands:
       - command: "show vlans"
         parser: "textfsm"
-        jpath: "[*].VLAN_ID"
+        jpath: "[*].vlan_name"
   vrf:
     commands:
       - command: "show vrf"
         parser: "textfsm"
-        jpath: "[*].VRF_NAME"
+        jpath: "[*].vlan_name"
