@@ -26,12 +26,12 @@ sync_devices:
         jpath: "[0].SYSTEM_TYPE"  # Use for platform slug
   mgmt_interface:
     commands:
-      - command: "show interface mgmt"
+      - command: "show interfaces"
         parser: "textfsm"
         jpath: "[0].INTERFACE"  # From hp_procurve_show_interface template; assume "mgmt"
   mask_length:
     commands:
-      - command: "show interface mgmt"
+      - command: "show interfaces"
         parser: "textfsm"
         jpath: "[0].MASK"  # Extract mask length from IP/mask
 
