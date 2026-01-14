@@ -3,44 +3,44 @@ sync_devices:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0].name"
+        jpath: "[0][0]"  # NAME
   serial:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0].serial"
+        jpath: "[0][10]"  # SERIAL
   device_type:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0].software_version"
+        jpath: "[0][6]"  # SOFTWARE_VERSION
   manufacturer:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0].software_version"  # Or post_processor to return "Aruba"
+        jpath: "[0][6]"  # SOFTWARE_VERSION as fallback
   platform:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0].software_version"
+        jpath: "[0][6]"  # SOFTWARE_VERSION
   mgmt_interface:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        jpath: "[3].vlan_name"  # Targets 'MANAGEMENT' VLAN interface
+        jpath: "[76].vlan_name"  # 'it-management' from your output; adjust index if order changes
   mask_length:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        jpath: "[3].subnet_mask"  # Targets 'MANAGEMENT' mask
+        jpath: "[76].subnet_mask"  # From your output
 
 sync_network_data:
   interfaces:
     commands:
       - command: "show interfaces brief"
         parser: "textfsm"
-        jpath: "[*].interface"
+        jpath: "[*][0]"  # INTERFACE (first column in brief)
   ip_addresses:
     commands:
       - command: "show ip"
@@ -50,14 +50,14 @@ sync_network_data:
     commands:
       - command: "show ip route"
         parser: "textfsm"
-        jpath: "[*].prefix"
+        jpath: "[*][0]"  # PREFIX (first column)
   vlans:
     commands:
       - command: "show vlans"
         parser: "textfsm"
-        jpath: "[*].vlan_name"
+        jpath: "[*][0]"  # VLAN_ID (first column)
   vrf:
     commands:
       - command: "show vrf"
         parser: "textfsm"
-        jpath: "[*].vlan_name"
+        jpath: "[*][0]"  # VRF_NAME (first column)
