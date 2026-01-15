@@ -14,12 +14,13 @@ sync_devices:
       - command: "show system"
         parser: "textfsm"
         jpath: "[0].software_version"
+        post_processor: "{{ 'Aruba 2530-8' }}"  # Statically return "Aruba 2530-8"
   manufacturer:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: ""  # Empty jpath to skip extraction
-        post_processor: "{{ 'HPE' }}"  # Static value
+        jpath: "[0].software_version"
+        post_processor: "{{ 'HPE' }}"  # Statically return "HPE"
   platform:
     commands:
       - command: "show system"
@@ -29,12 +30,13 @@ sync_devices:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        jpath: "[76].vlan_name"  # From your output; adjust if needed
+        jpath: "[76].vlan_name"
   mask_length:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        jpath: "[76].subnet_mask | split('.') | map('int') | list | sum | log2 | int | subtract(32) | abs"
+        jpath: "[76].subnet_mask"  # Extract mask string
+        post_processor: "{{ value | split('.') | map('int') | list | sum | log2 | int | subtract(32) | abs }}"  # Convert to length in post_processor
 
 sync_network_data:
   interfaces:
