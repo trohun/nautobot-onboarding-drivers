@@ -3,27 +3,27 @@ sync_devices:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0].NAME"
+        jpath: "[0].name"
   serial:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0].SERIAL"
+        jpath: "[0].serial"
   device_type:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0].SOFTWARE_VERSION"
+        jpath: "[0].software_version"
   manufacturer:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0].SOFTWARE_VERSION"
+        jpath: "[0].software_version"
   platform:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0].SOFTWARE_VERSION"
+        jpath: "[0].software_version"
   mgmt_interface:
     commands:
       - command: "show ip"
