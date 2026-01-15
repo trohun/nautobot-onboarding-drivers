@@ -14,17 +14,6 @@ sync_devices:
       - command: "show system"
         parser: "textfsm"
         jpath: "[0].software_version"
-  manufacturer:
-    commands:
-      - command: "show system"
-        parser: "textfsm"
-        jpath: "[0].software_version"
-        post_processor: "{{ 'Aruba' }}"
-  platform:
-    commands:
-      - command: "show system"
-        parser: "textfsm"
-        jpath: "[0].software_version"
   mgmt_interface:
     commands:
       - command: "show ip"
