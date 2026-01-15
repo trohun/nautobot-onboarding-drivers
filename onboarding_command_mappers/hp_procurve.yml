@@ -28,12 +28,12 @@ sync_devices:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        jpath: "[76].vlan_name"
+        jpath: "[0].vlan_name"
   mask_length:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        jpath: "[76].subnet_mask"
+        jpath: "[0].subnet_mask"
 
 sync_network_data:
   interfaces:
