@@ -18,13 +18,23 @@ sync_devices:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0].software_version"
-        post_processor: "{{ 'HPE' }}"  # Statically return "HPE"
+        jpath: ""  # Empty jpath to skip extraction
+        post_processor: "{{ 'HPE' }}"  # Static value
   platform:
     commands:
       - command: "show system"
         parser: "textfsm"
         jpath: "[0].software_version"
+  mgmt_interface:
+    commands:
+      - command: "show ip"
+        parser: "textfsm"
+        jpath: "[76].vlan_name"  # From your output; adjust if needed
+  mask_length:
+    commands:
+      - command: "show ip"
+        parser: "textfsm"
+        jpath: "[76].subnet_mask | split('.') | map('int') | list | sum | log2 | int | subtract(32) | abs"
 
 sync_network_data:
   interfaces:
