@@ -14,18 +14,29 @@ sync_devices:
       - command: "show system"
         parser: "textfsm"
         jpath: "[0].software_version"
+  manufacturer:
+    commands:
+      - command: "show system"
+        parser: "textfsm"
+        jpath: "[0].software_version"
+        post_processor: "{{ 'HPE' }}"  # Hardcode Aruba
+  platform:
+    commands:
+      - command: "show system"
+        parser: "textfsm"
+        jpath: "[0].software_version"
   mgmt_interface:
     commands:
       - command: "show ip"
         parser: "textfsm"
         jpath: "raw"
-        post_processor: "{% set filtered = obj | map(attribute='ip_address') | map('trim') | select('equalto', '10.228.0.18') | list %}{% if filtered | length > 0 %}{{ filtered | first.vlan_name }}{% else %}{{ 'it-management' }}{% endif %}"
+        post_processor: "{{ obj | selectattr('ip_address', 'equalto', '10.228.0.18') | first.vlan_name | default('it-management') }}"
   mask_length:
     commands:
       - command: "show ip"
         parser: "textfsm"
         jpath: "raw"
-        post_processor: "{% set filtered = obj | map(attribute='ip_address') | map('trim') | select('equalto', '10.228.0.18') | list %}{% if filtered | length > 0 %}{{ filtered | first.subnet_mask | split('.') | map('int') | list | sum | log2 | int | subtract(32) | abs }}{% else %}{{ 24 }}{% endif %}"
+        post_processor: "{{ obj | selectattr('ip_address', 'equalto', '10.228.0.18') | first.subnet_mask | split('.') | map('int') | list | sum | log2 | int | subtract(32) | abs | default(24) }}"
 
 sync_network_data:
   interfaces:
