@@ -30,13 +30,13 @@ sync_devices:
       - command: "show ip"
         parser: "textfsm"
         jpath: "raw"
-        post_processor: "{{ obj | selectattr('ip_address', 'equalto', '10.228.0.18') | first | attribute('vlan_name') | default('it-management') }}"
+        post_processor: "{{ obj | selectattr('ip_address', 'equalto', '10.228.0.18') | first.vlan_name | default('it-management') }}"
   mask_length:
     commands:
       - command: "show ip"
         parser: "textfsm"
         jpath: "raw"
-        post_processor: "{{ obj | selectattr('ip_address', 'equalto', '10.228.0.18') | first | attribute('subnet_mask') | split('.') | map('int') | list | sum | log2 | int | subtract(32) | abs | default(24) }}"
+        post_processor: "{{ obj | selectattr('ip_address', 'equalto', '10.228.0.18') | first.subnet_mask | split('.') | map('int') | list | sum | log2 | int | subtract(32) | abs | default(24) }}"
 
 sync_network_data:
   interfaces:
