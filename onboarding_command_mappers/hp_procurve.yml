@@ -19,7 +19,7 @@ sync_devices:
       - command: "show system"
         parser: "textfsm"
         jpath: "[0].software_version"
-        post_processor: "{{ 'Aruba' }}"
+        post_processor: "{{ 'HPE' }}"
   platform:
     commands:
       - command: "show system"
