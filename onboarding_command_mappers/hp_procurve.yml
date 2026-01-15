@@ -3,32 +3,28 @@ sync_devices:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "raw"
-        post_processor: "{{ obj[0].name }}"
+        jpath: "[0].name"
   serial:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "raw"
-        post_processor: "{{ obj[0].serial }}"
+        jpath: "[0].serial"
   device_type:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "raw"
-        post_processor: "{{ obj[0].software_version }}"
+        jpath: "[0].software_version"
   manufacturer:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "raw"
+        jpath: "[0].software_version"
         post_processor: "{{ 'Aruba' }}"
   platform:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "raw"
-        post_processor: "{{ obj[0].software_version }}"
+        jpath: "[0].software_version"
   mgmt_interface:
     commands:
       - command: "show ip"
