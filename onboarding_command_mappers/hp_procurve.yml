@@ -19,7 +19,7 @@ sync_devices:
       - command: "show system"
         parser: "textfsm"
         jpath: "[0].software_version"
-        post_processor: "{{ 'Aruba' }}"  # Hardcode
+        post_processor: "{{ 'Aruba' }}"
   platform:
     commands:
       - command: "show system"
@@ -30,13 +30,13 @@ sync_devices:
       - command: "show ip"
         parser: "textfsm"
         jpath: "raw"
-        post_processor: "{{ (obj | selectattr('ip_address', 'equalto', '10.228.0.18') | first).vlan_name | default('it-management') }}"  # Correct chaining with parentheses
+        post_processor: "{{ obj | map(attribute='ip_address') | map('strip') | list | index('10.228.0.18') | default(-1) | obj[this] | vlan_name | default('it-management') }}"  # Strip and find index, default if not found
   mask_length:
     commands:
       - command: "show ip"
         parser: "textfsm"
         jpath: "raw"
-        post_processor: "{{ ((obj | selectattr('ip_address', 'equalto', '10.228.0.18') | first).subnet_mask | split('.') | map('int') | list | sum | log2 | int | subtract(32) | abs) | default(24) }}"  # Convert mask to length with Jinja2 math
+        post_processor: "{{ obj | map(attribute='ip_address') | map('strip') | list | index('10.228.0.18') | default(-1) | obj[this] | subnet_mask | split('.') | map('int') | list | sum | log2 | int | subtract(32) | abs | default(24) }}"  # Strip, find, convert mask to length
 
 sync_network_data:
   interfaces:
