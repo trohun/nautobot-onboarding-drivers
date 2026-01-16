@@ -16,7 +16,7 @@ sync_devices:
       - command: "show system"
         parser: "textfsm"
         jpath: "[0].name"                # valid, but ignored
-        post_processor: "{{ 'HPE Aruba 2530-8' }}"
+        post_processor: "{{ 'Aruba 2530-8' }}"
 
   manufacturer:
     commands:
@@ -31,16 +31,4 @@ sync_devices:
         parser: "textfsm"
         jpath: "[0].software_version"
 
-  mgmt_interface:
-    commands:
-      - command: "show ip"
-        parser: "textfsm"
-        # adjust index to the actual position of the it-management row
-        jpath: "[<index_of_it-management>].vlan_name"
-
-  mask_length:
-    commands:
-      - command: "show ip"
-        parser: "textfsm"
-        jpath: "[0]"                     # any valid element
-        post_processor: "{{ 24 | int }}"
+ 
