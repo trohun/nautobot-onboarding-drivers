@@ -14,13 +14,12 @@ sync_devices:
       - command: "show system"
         parser: "textfsm"
         jpath: "[0].software_version"
-        post_processor: "{{ 'Aruba 2530-8' }}"  # Statically return "Aruba 2530-8"
   manufacturer:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0].software_version"
-        post_processor: "{{ 'HPE' }}"  # Statically return "HPE"
+        jpath: ""  # Empty jpath to skip extraction
+        post_processor: "{{ 'HPE' }}"  # Static HPE
   platform:
     commands:
       - command: "show system"
@@ -36,7 +35,7 @@ sync_devices:
       - command: "show ip"
         parser: "textfsm"
         jpath: "[76].subnet_mask"
-        post_processor: "{{ 24 }}"  # Statically return 24 for testing
+        post_processor: "{{ value | split('.') | map('int') | list | sum | log2 | int | subtract(32) | abs }}"  # Conversion
 
 sync_network_data:
   interfaces:
