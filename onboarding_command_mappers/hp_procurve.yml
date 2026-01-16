@@ -35,11 +35,43 @@ sync_devices:
     commands:
       - command: "show ip"
         parser: "textfsm"
+        # Find the row with the management IP and return its vlan_name
         jpath: "[?ip_address=='10.228.0.18'].vlan_name | [0]"
 
   mask_length:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        jpath: "[0]"
-        post_processor: "{{ 24 | int }}"
+        # For the row with subnet_mask 255.255.255.0, return numeric 24
+        jpath: "[?subnet_mask=='255.255.255.0'].{ml: `24`} | [0].ml"
+
+sync_network_data:
+  interfaces:
+    commands:
+      - command: "show interfaces brief"
+        parser: "textfsm"
+        jpath: "[*].interface"
+
+  ip_addresses:
+    commands:
+      - command: "show ip"
+        parser: "textfsm"
+        jpath: "[*].ip_address"
+
+  prefixes:
+    commands:
+      - command: "show ip route"
+        parser: "textfsm"
+        jpath: "[*].prefix"
+
+  vlans:
+    commands:
+      - command: "show vlans"
+        parser: "textfsm"
+        jpath: "[*].vlan_name"
+
+  vrf:
+    commands:
+      - command: "show vrf"
+        parser: "textfsm"
+        jpath: "[*].vlan_name"
