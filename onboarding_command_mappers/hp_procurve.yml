@@ -41,8 +41,7 @@ sync_devices:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        jpath: "[0]"              # any valid element
-        post_processor: "{{ 24 }}"  # static value
+        jpath: "`24`"
 
 sync_network_data:
   interfaces:
