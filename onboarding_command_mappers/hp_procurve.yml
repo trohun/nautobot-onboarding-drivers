@@ -41,4 +41,5 @@ sync_devices:
     commands:
       - command: "show ip"
         parser: "textfsm"
+        # For any row with subnet_mask 255.255.255.0, return numeric 24
         jpath: "[?subnet_mask=='255.255.255.0'].{ml: `24`} | [0].ml"
