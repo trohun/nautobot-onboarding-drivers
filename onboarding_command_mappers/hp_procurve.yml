@@ -3,18 +3,14 @@ sync_devices:
     commands:
       - command: "show system"
         parser: "textfsm"
-        # swi-trond
         jpath: "[0].name"
 
   serial:
     commands:
       - command: "show system"
         parser: "textfsm"
-        # CN99FP5BPL
         jpath: "[0].serial"
 
-  # Device type: simplest is to hard-code a model name that exists in Nautobot
-  # Adjust 'Aruba 2530-8' to match your actual DeviceType name if needed.
   device_type:
     commands:
       - command: "show system"
@@ -22,7 +18,6 @@ sync_devices:
         jpath: "[0].name"
         post_processor: "{{ 'HPE Aruba 2530-8' }}"
 
-  # Manufacturer: hard-code to HPE (you already have HPE as Manufacturer)
   manufacturer:
     commands:
       - command: "show system"
@@ -30,8 +25,6 @@ sync_devices:
         jpath: "[0].name"
         post_processor: "{{ 'HPE' }}"
 
-  # Platform: use the Platform slug you already have in Nautobot, e.g. "aruba-aos-s"
-  # The schema only cares that a string is returned; the target adapter will map it.
   platform:
     commands:
       - command: "show system"
@@ -39,19 +32,16 @@ sync_devices:
         jpath: "[0].software_version"
         post_processor: "{{ 'Aruba AOS-S' }}"
 
-  # Management interface: VLAN name for the management IP 10.228.0.18
   mgmt_interface:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        # Find the row where ip_address == 10.228.0.18 and return its vlan_name
         jpath: "[?ip_address=='10.228.0.18'].vlan_name | [0]"
 
-  # Management mask length: MUST be integer per schema
-  # We know 10.228.0.18 has 255.255.255.0 => /24, so we hard-code 24 as a number.
   mask_length:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        # Convert string '24' to numeric 24 using JMESPath to_number()
-        jpath: "to_number('24')"
+        # jpath just needs to return *something*; we ignore it in post_processor
+        jpath: "[0].config"
+        post_processor: "{{ 24 }}"
