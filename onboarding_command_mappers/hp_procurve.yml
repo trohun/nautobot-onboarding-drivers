@@ -20,7 +20,7 @@ sync_devices:
       - command: "show system"
         parser: "textfsm"
         jpath: "[0].name"
-        post_processor: "{{ 'Aruba 2530-8' }}"
+        post_processor: "{{ 'HPE Aruba 2530-8' }}"
 
   # Manufacturer: hard-code to HPE (you already have HPE as Manufacturer)
   manufacturer:
