@@ -14,7 +14,7 @@ sync_devices:
       - command: "show system"
         parser: "textfsm"
         jpath: "[]"  # Empty list as a valid template
-        post_processor: "{{ 'Aruba 2530-8' }}"  # Static device_type
+        post_processor: "{{ 'HPE Aruba 2530-8' }}"  # Static device_type
   manufacturer:
     commands:
       - command: "show system"
