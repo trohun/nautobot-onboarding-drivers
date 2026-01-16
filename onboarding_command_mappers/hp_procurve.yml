@@ -36,7 +36,7 @@ sync_devices:
       - command: "show ip"
         parser: "textfsm"
         jpath: "[]"  # Empty list as a valid template
-        post_processor: "{{ 24 }}"  # Static mask_length
+        post_processor: "{{ 24 | int }}"  # Static mask_length converted to integer
 
 sync_network_data:
   interfaces:
