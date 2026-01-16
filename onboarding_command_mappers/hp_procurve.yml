@@ -4,65 +4,43 @@ sync_devices:
       - command: "show system"
         parser: "textfsm"
         jpath: "[0].name"
+
   serial:
     commands:
       - command: "show system"
         parser: "textfsm"
         jpath: "[0].serial"
+
   device_type:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[]"  # Empty list as a valid template
+        jpath: "[0].name"                # valid, but ignored
+        post_processor: "{{ 'HPE Aruba 2530-8' }}"
+
   manufacturer:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[]"  # Empty list as a valid template
+        jpath: "[0].name"                # valid, but ignored
+        post_processor: "{{ 'HPE' }}"
+
   platform:
     commands:
       - command: "show system"
         parser: "textfsm"
         jpath: "[0].software_version"
+
   mgmt_interface:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        jpath: "[76].vlan_name"  # Static index from your output
+        # adjust index to the actual position of the it-management row
+        jpath: "[<index_of_it-management>].vlan_name"
+
   mask_length:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        jpath: "[]"  # Empty list as a valid template
-
-sync_network_data:
-  interfaces:
-    commands:
-      - command: "show interfaces brief"
-        parser: "textfsm"
-        jpath: "[*].interface"
-  ip_addresses:
-    commands:
-      - command: "show ip"
-        parser: "textfsm"
-        jpath: "[*].ip_address"
-  prefixes:
-    commands:
-      - command: "show ip route"
-        parser: "textfsm"
-        jpath: "[*].prefix"
-  vlans:
-    commands:
-      - command: "show vlans"
-        parser: "textfsm"
-        jpath: "[*].vlan_name"
-  vrf:
-    commands:
-      - command: "show vrf"
-        parser: "textfsm"
-        jpath: "[*].vlan_name"
-
-static_values:
-  device_type: "HPE Aruba 2530-8"
-  manufacturer: "HPE"
-  mask_length: 24
+        jpath: "[0]"                     # any valid element
+        post_processor: "{{ 24 | int }}"
