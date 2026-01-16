@@ -13,14 +13,14 @@ sync_devices:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: 
-        post_processor: "{{ 'Aruba 2530-8' }}"  # Static device_type
+        jpath: "[0].software_version"
+        post_processor: "{{ 'Aruba 2530-8' }}"
   manufacturer:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: 
-        post_processor: "{{ 'HPE' }}"  # Static manufacturer
+        jpath: "[0].software_version"
+        post_processor: "{{ 'HPE' }}"
   platform:
     commands:
       - command: "show system"
@@ -30,13 +30,14 @@ sync_devices:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        jpath: "[76].vlan_name"  # Static index from your output
+        jpath: "raw"
+        post_processor: "{% set item = obj | selectattr('ip_address', 'equalto', '10.228.0.18') | first %}{{ item.vlan_name if item else 'it-management' }}"
   mask_length:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        jpath: 
-        post_processor: "{{ 24 }}"  # Static mask_length
+        jpath: "raw"
+        post_processor: "{{ '24' }}"
 
 sync_network_data:
   interfaces:
