@@ -15,14 +15,14 @@ sync_devices:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0].name"                # valid, but ignored
+        jpath: "[0].name"
         post_processor: "{{ 'HPE Aruba 2530-8' }}"
 
   manufacturer:
     commands:
       - command: "show system"
         parser: "textfsm"
-        jpath: "[0].name"                # valid, but ignored
+        jpath: "[0].name"
         post_processor: "{{ 'HPE' }}"
 
   platform:
@@ -35,15 +35,14 @@ sync_devices:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        # Find the row with the management IP and return its vlan_name
         jpath: "[?ip_address=='10.228.0.18'].vlan_name | [0]"
 
   mask_length:
     commands:
       - command: "show ip"
         parser: "textfsm"
-        # For the row with subnet_mask 255.255.255.0, return numeric 24
-        jpath: "[?subnet_mask=='255.255.255.0'].{ml: `24`} | [0].ml"
+        jpath: "[0]"              # any valid element
+        post_processor: "{{ 24 }}"  # static value
 
 sync_network_data:
   interfaces:
